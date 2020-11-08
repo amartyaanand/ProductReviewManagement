@@ -32,12 +32,10 @@ namespace ProductReviewManagement
         }
         public void RetrieveCountOfRecords(List<ProductReview> listProductReview)
         {
-            var recordedData = from productReview in listProductReview
-                               group productReview by productReview.ProductID into g
-                               select new { ProductId = g.Key, Count = g.Count() };
+            var recordedData = listProductReview.GroupBy(x => x.ProductID).Select(x => new { ProductID = x.Key, Count = x.Count() });
             foreach (var list in recordedData)
             {
-                Console.WriteLine(list.ProductId + " " + list.Count);
+                Console.WriteLine(list.ProductID + " " + list.Count);
             }
         }
         public void RetrieveProductIDAndReviews(List<ProductReview> listProductReview)
@@ -56,6 +54,14 @@ namespace ProductReviewManagement
             foreach (var list in recordedData)
             {
                 Console.WriteLine(list.ToString());
+            }
+        }
+        public void SelectProductIDAndReviews(List<ProductReview> listProductReview)
+        {
+            var recordedData = listProductReview.Select(x => new { x.ProductID, x.Review });
+            foreach (var list in recordedData)
+            {
+                Console.WriteLine(list.ProductID + " " + list.Review);
             }
         }
     }
